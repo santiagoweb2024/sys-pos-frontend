@@ -182,22 +182,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-
-      {/* Botones de Acción Rápida */}
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button className="p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-          Nueva Venta
-        </button>
-        <button className="p-4 bg-green-500 text-white rounded-lg hover:bg-green-600">
-          Gestionar Inventario
-        </button>
-        <button className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
-          Reporte del Día
-        </button>
-        <button className="p-4 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-          Configuración
-        </button>
-      </div>
     </div>
   );
 }
