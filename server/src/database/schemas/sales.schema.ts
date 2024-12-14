@@ -24,7 +24,8 @@ export const sales = pgTable('sales', {
   date: date().notNull(),
   subtotal: decimal({ precision: 10, scale: 2 }).notNull(),
   discount: decimal({ precision: 10, scale: 2 }).notNull().default('0'),
-  tax: decimal({ precision: 10, scale: 2 }).notNull().default('0'),
+  taxPercentage: decimal({ precision: 5, scale: 2 }).notNull().default('0'), // Ejemplo: 18.00 para IGV, 16.00 para IVA, etc.
+  taxAmount: decimal({ precision: 10, scale: 2 }).notNull().default('0'), // Monto calculado del impuesto
   total: decimal({ precision: 10, scale: 2 }).notNull(),
   paymentMethod: varchar({ length: 50 }).notNull(), // efectivo, tarjeta, etc.
   paymentStatus: varchar({ length: 20 }).notNull().default('completed'), // completed, pending, cancelled
