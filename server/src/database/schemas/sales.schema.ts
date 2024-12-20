@@ -1,39 +1,37 @@
-import {
-  pgTable,
-  serial,
-  integer,
-  decimal,
-  varchar,
-  date,
-} from 'drizzle-orm/pg-core';
+import { pgTable, pgEnum, serial, integer } from 'drizzle-orm/pg-core';
+import { timestampColumns } from '@/shared/utils/colums.util';
 import { relations } from 'drizzle-orm';
-import { timestampColumns } from '@/utils/colums.util';
-import { users } from './user.schema';
-import { customers } from './customer.table';
-import { sessionBoxes } from './sessionBox.schema';
+import { cashResgisters } from './cashRegisters';
+import { users } from './users.schema';
+import { customers } from './customers.schema';
+import { saleDetails } from './saleDetails.schema';
+import { paymentMethods } from './paymentMethods.schema';
+
+export const salesStatusEnum = pgEnum('salesStatus', ['OPEN', 'CLOSED']);
 
 export const sales = pgTable('sales', {
   id: serial().primaryKey(),
+  cashRegisterId: integer()
+    .references(() => cashResgisters.id)
+    .notNull(),
   userId: integer()
-    .notNull()
-    .references(() => users.id),
-  customerId: integer().references(() => customers.id), // Opcional, para ventas a clientes registrados
-  sessionBoxId: integer()
-    .notNull()
-    .references(() => sessionBoxes.id),
-  date: date().notNull(),
-  subtotal: decimal({ precision: 10, scale: 2 }).notNull(),
-  discount: decimal({ precision: 10, scale: 2 }).notNull().default('0'),
-  taxPercentage: decimal({ precision: 5, scale: 2 }).notNull().default('0'), // Ejemplo: 18.00 para IGV, 16.00 para IVA, etc.
-  taxAmount: decimal({ precision: 10, scale: 2 }).notNull().default('0'), // Monto calculado del impuesto
-  total: decimal({ precision: 10, scale: 2 }).notNull(),
-  paymentMethod: varchar({ length: 50 }).notNull(), // efectivo, tarjeta, etc.
-  paymentStatus: varchar({ length: 20 }).notNull().default('completed'), // completed, pending, cancelled
-  notes: varchar({ length: 255 }),
+    .references(() => users.id)
+    .notNull(),
+  customerId: integer()
+    .references(() => customers.id)
+    .notNull(),
+  paymentMethodId: integer()
+    .references(() => paymentMethods.id)
+    .notNull(),
+  status: salesStatusEnum().notNull(),
   ...timestampColumns,
 });
 
-export const salesRelations = relations(sales, ({ one }) => ({
+export const salesRelations = relations(sales, ({ one, many }) => ({
+  cashRegister: one(cashResgisters, {
+    fields: [sales.cashRegisterId],
+    references: [cashResgisters.id],
+  }),
   user: one(users, {
     fields: [sales.userId],
     references: [users.id],
@@ -42,8 +40,9 @@ export const salesRelations = relations(sales, ({ one }) => ({
     fields: [sales.customerId],
     references: [customers.id],
   }),
-  sessionBox: one(sessionBoxes, {
-    fields: [sales.sessionBoxId],
-    references: [sessionBoxes.id],
+  paymentMethods: one(paymentMethods, {
+    fields: [sales.paymentMethodId],
+    references: [paymentMethods.id],
   }),
+  saleDetails: many(saleDetails),
 }));
