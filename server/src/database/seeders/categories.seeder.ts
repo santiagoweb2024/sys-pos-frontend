@@ -1,50 +1,30 @@
 import { Db } from '@/shared/types/database/common/database.types';
 import { categories } from '../schemas/categories.schema';
-import { CategoryInsert } from '@/shared/types/database/entities/categorie.types';
+import { CategoryInsert } from '@/shared/types/database/entities/category.types';
 
 const categoriesInitial: CategoryInsert[] = [
   {
-    name: 'Alimentos',
-    description: 'Productos alimenticios básicos como arroz, frijoles, etc.',
+    name: 'Laptops',
+    description: 'Computadoras portátiles',
   },
   {
-    name: 'Bebidas',
-    description: 'Refrescos, jugos, agua embotellada, etc.',
+    name: 'Desktops',
+    description: 'Computadoras de escritorio',
   },
   {
-    name: 'Lácteos',
-    description: 'Leche, queso, yogur, etc.',
+    name: 'Tablets',
+    description: 'Tabletas',
   },
   {
-    name: 'Carnes',
-    description: 'Carne de res, pollo, cerdo, etc.',
+    name: 'Smartphones',
+    description: 'Teléfonos inteligentes',
   },
   {
-    name: 'Panadería',
-    description: 'Pan, galletas, pasteles, etc.',
-  },
-  {
-    name: 'Higiene Personal',
-    description: 'Jabón, champú, pasta dental, etc.',
-  },
-  {
-    name: 'Limpieza',
-    description: 'Detergentes, desinfectantes, etc.',
-  },
-  {
-    name: 'Enlatados',
-    description: 'Productos enlatados como atún, vegetales, etc.',
-  },
-  {
-    name: 'Snacks',
-    description: 'Botanas, papas fritas, galletas, etc.',
-  },
-  {
-    name: 'Condimentos',
-    description: 'Salsas, especias, aderezos, etc.',
+    name: 'Accesorios',
+    description: 'Accesorios para computadoras',
   },
 ];
 
-export const seedCategories = async (db: Db) => {
+export async function seedCategories(db: Db) {
   await db.insert(categories).values(categoriesInitial);
-};
+}

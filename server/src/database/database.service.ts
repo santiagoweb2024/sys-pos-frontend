@@ -1,53 +1,45 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import type { Db } from '@/shared/types/database/common/database.types';
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { LoggerService } from '@/shared/services/logger.service';
 
 @Injectable()
-export class DatabaseService implements OnModuleInit, OnModuleDestroy {
+export class DatabaseService implements OnModuleDestroy {
+  private readonly logger = new Logger(DatabaseService.name);
   private pool: Pool | null = null;
-  public readonly database: Db | null = null;
+  private _database: Db | null = null;
 
-  constructor(
-    private configService: ConfigService,
-    private logger: LoggerService,
-  ) {
-    this.logger.log('DatabaseService constructor called');
-  }
+  constructor(private readonly configService: ConfigService) {}
 
-  async onModuleInit() {
-    this.logger.log('DatabaseService initializing...');
-    const connectionString = this.configService.get('database.url');
-    if (!connectionString) {
-      this.logger.error('Database URL is not defined');
-      throw new Error('Database URL is not defined');
+  get database(): Db {
+    if (!this._database) {
+      const connectionString = this.configService.get('database.url');
+      if (!connectionString) {
+        throw new Error('Database URL is not defined in configuration');
+      }
+      this.pool = new Pool({ connectionString });
+      this._database = drizzle({ client: this.pool });
     }
-    this.pool = new Pool({ connectionString });
-    (this as any).database = drizzle({ client: this.pool });
-    this.logger.log('DatabaseService initialized successfully');
+    return this._database;
   }
 
   async onModuleDestroy() {
-    this.logger.log('DatabaseService destroying...');
-    if (this.pool) {
-      await this.pool.end();
-      this.pool = null;
-      (this as any).database = null;
+    try {
+      if (this.pool) {
+        this.logger.log('Closing database connections...');
+        await this.pool.end();
+        this._database = null;
+        this.pool = null;
+        this.logger.log('Database connections closed successfully');
+      }
+    } catch (error) {
+      this.logger.error('Error closing database connections:', error);
+      throw error; // Re-throw para que NestJS sepa que hubo un error
     }
-    this.logger.log('DatabaseService destroyed successfully');
   }
 
-  getDrizzle(): Db {
-    if (!this.database) {
-      this.logger.error('Database not initialized');
-      throw new Error('Database not initialized');
-    }
-    return this.database;
-  }
-
-  // Para uso en seeders y scripts
+  // Para uso en seeders y scripts fuera de NestJS
   static async withDb<T>(
     connectionString: string,
     operation: (db: Db) => Promise<T>,

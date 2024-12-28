@@ -3,78 +3,58 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import {
-  Response,
-  HttpExceptionResponse,
-  SuccessResponse,
-  ErrorResponse,
-} from '../types/http/response.types';
-
-// Type guard for HttpExceptionResponse
-function isHttpExceptionResponse(
-  response: unknown,
-): response is HttpExceptionResponse {
-  return (
-    typeof response === 'object' &&
-    response !== null &&
-    (typeof (response as any).message === 'string' ||
-      Array.isArray((response as any).message))
-  );
-}
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ApiResponse } from '../types/response.type';
 
 @Injectable()
 export class ResponseFormatInterceptor<T>
-  implements NestInterceptor<T, Response<T>>
+  implements NestInterceptor<T, ApiResponse<T>>
 {
   intercept(
     context: ExecutionContext,
-    next: CallHandler<T>,
-  ): Observable<Response<T>> {
-    const statusCode = context.switchToHttp().getResponse().statusCode;
-
+    next: CallHandler,
+  ): Observable<ApiResponse<T>> {
     return next.handle().pipe(
-      map(
-        (data): SuccessResponse<T> => ({
-          statusCode,
-          message: 'Success',
-          data,
-        }),
-      ),
-      catchError((error) => {
-        if (error instanceof HttpException) {
-          const response = error.getResponse();
-          const exceptionResponse: HttpExceptionResponse =
-            typeof response === 'string'
-              ? { message: response }
-              : isHttpExceptionResponse(response)
-                ? response
-                : { message: 'Unknown error' };
-
-          const errorMessage = Array.isArray(exceptionResponse.message)
-            ? exceptionResponse.message[0]
-            : exceptionResponse.message;
-
-          return throwError(
-            (): ErrorResponse => ({
-              statusCode: error.getStatus(),
-              message: errorMessage,
-              error: exceptionResponse.error || error.name,
-            }),
-          );
+      map((responseData) => {
+        // Si ya tiene el formato correcto, retornarlo como está
+        if (responseData?.statusCode && responseData?.message) {
+          return responseData;
         }
-        return throwError(
-          (): ErrorResponse => ({
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Internal server error',
-            error: error.message || 'Unknown error',
-          }),
-        );
+
+        // Obtener el status de la respuesta HTTP
+        const response = context.switchToHttp().getResponse();
+        const statusCode = response.statusCode;
+
+        // Extraer type, data, message y meta del responseData
+        const { type, data, meta, message } = responseData;
+
+        // Construir la respuesta con el formato correcto
+        return {
+          statusCode,
+          message: message || this.getDefaultMessage(statusCode),
+          type,
+          data: data || responseData,
+          ...(meta && { meta }),
+        };
       }),
     );
+  }
+
+  private getDefaultMessage(statusCode: number): string {
+    switch (statusCode) {
+      case HttpStatus.OK:
+        return 'Operation successful';
+      case HttpStatus.CREATED:
+        return 'Resource created successfully';
+      case HttpStatus.ACCEPTED:
+        return 'Request accepted';
+      case HttpStatus.NO_CONTENT:
+        return 'Resource deleted successfully';
+      default:
+        return 'Operation completed';
+    }
   }
 }

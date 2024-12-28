@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { config } from './shared/config/config';
-import { ProductsModule } from './modules/products/products.module';
+import { ProductModule } from './modules/products/product.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { ProductsModule } from './modules/products/products.module';
       load: [() => config],
     }),
     DatabaseModule,
-    ProductsModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

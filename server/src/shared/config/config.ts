@@ -1,33 +1,44 @@
-interface ProcessEnv extends NodeJS.ProcessEnv {
-  DATABASE_URL: string;
-  PORT: string;
-  API_VERSION?: string;
-  ALLOWED_ORIGINS?: string;
-}
-
 process.loadEnvFile();
+const { DATABASE_URL, PORT, BASE_URL, API_PREFIX } = process.env;
 
-const {
-  DATABASE_URL,
-  PORT,
-  API_VERSION = '1',
-  ALLOWED_ORIGINS = '*',
-}: ProcessEnv = process.env;
-
-if (!DATABASE_URL) {
-  throw new Error('DATABASE_URL is not defined');
-}
-if (!PORT) {
-  throw new Error('PORT is not defined');
+export interface AppConfig {
+  port: string;
+  database: {
+    url: string;
+  };
+  api: {
+    baseUrl: string;
+    apiPrefix: string;
+  };
 }
 
-export const config = {
+// Validar que todas las variables requeridas estén presentes
+function validateEnvVariables() {
+  const requiredVars: string[] = [
+    'DATABASE_URL',
+    'PORT',
+    'BASE_URL',
+    'API_PREFIX',
+  ];
+  for (const varName of requiredVars) {
+    if (!process.env[varName]) {
+      throw new Error(
+        `Required environment variable ${varName} is not defined`,
+      );
+    }
+  }
+}
+
+// Validar la configuración antes de exportarla
+validateEnvVariables();
+
+export const config: AppConfig = {
   port: PORT,
   database: {
     url: DATABASE_URL,
   },
   api: {
-    version: API_VERSION,
-    allowedOrigins: ALLOWED_ORIGINS.split(','),
+    baseUrl: BASE_URL,
+    apiPrefix: API_PREFIX,
   },
 };

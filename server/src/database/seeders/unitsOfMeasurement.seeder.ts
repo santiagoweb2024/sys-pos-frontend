@@ -1,6 +1,6 @@
 import { Db } from '@/shared/types/database/common/database.types';
 import { unitsOfMeasurement } from '../schemas/unitsOfMeasurement';
-import { UnitOfMeasurementInsert } from '@/shared/types/database/entities/unitOfMeasuremen.types';
+import { UnitOfMeasurementInsert } from '@/shared/types/database/entities/unitOfMeasurement.types';
 
 const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
   {
@@ -10,6 +10,7 @@ const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
     baseUnit: true,
     conversionFactor: '1',
     description: 'Unidad de masa',
+    displayOrder: 1,
   },
   {
     name: 'Gramo',
@@ -18,6 +19,7 @@ const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
     baseUnit: false,
     conversionFactor: '0.001',
     description: 'Unidad de masa',
+    displayOrder: 2,
   },
   {
     name: 'Litro',
@@ -26,6 +28,7 @@ const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
     baseUnit: true,
     conversionFactor: '1',
     description: 'Unidad de volumen',
+    displayOrder: 3,
   },
   {
     name: 'Mililitro',
@@ -34,6 +37,7 @@ const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
     baseUnit: false,
     conversionFactor: '0.001',
     description: 'Unidad de volumen',
+    displayOrder: 4,
   },
   {
     name: 'Unidad',
@@ -42,6 +46,7 @@ const unitsOfMeasurementInitial: UnitOfMeasurementInsert[] = [
     baseUnit: true,
     conversionFactor: '1',
     description: 'Unidad básica',
+    displayOrder: 5,
   },
 ];
 
