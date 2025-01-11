@@ -17,12 +17,8 @@ export const sales = pgTable('sales', {
   userId: integer()
     .references(() => users.id)
     .notNull(),
-  customerId: integer()
-    .references(() => customers.id)
-    .notNull(),
-  paymentMethodId: integer()
-    .references(() => paymentMethods.id)
-    .notNull(),
+  customerId: integer().references(() => customers.id),
+  paymentMethodId: integer().references(() => paymentMethods.id),
   status: salesStatusEnum().notNull(),
   ...timestampColumns,
 });

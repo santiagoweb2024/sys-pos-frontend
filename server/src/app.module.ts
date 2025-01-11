@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { config } from './shared/config/config';
 import { ProductModule } from './modules/products/product.module';
+import { SaleModule } from './modules/sales/sale.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductModule } from './modules/products/product.module';
     }),
     DatabaseModule,
     ProductModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

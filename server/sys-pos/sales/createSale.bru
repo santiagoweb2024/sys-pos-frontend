@@ -1,0 +1,21 @@
+meta {
+  name: createSale
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}sales
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "status": "OPEN",
+    "cashRegisterId": 1,
+    "userId": 1,
+    "customerId":null,
+    "paymentMethodId":null
+  }
+}

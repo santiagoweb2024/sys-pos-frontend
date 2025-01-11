@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ResponseFormatInterceptor } from '../interceptors/responseFormat.interceptor';
+import { GlobalExceptionFilter } from '../filters/httpException.filter';
 /**
  * Configuración global de la aplicación
  * @param app Instancia de la aplicación NestJS
@@ -12,8 +13,10 @@ export function setupApp(app: INestApplication) {
   app.useGlobalPipes();
 
   // Configuración global de interceptores
-  app.useGlobalInterceptors(new ResponseFormatInterceptor());
+  app.useGlobalInterceptors();
 
+  //Configuracion global de filtros de exepciones
+  app.useGlobalFilters(new GlobalExceptionFilter());
   // Configuración de CORS
   app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],

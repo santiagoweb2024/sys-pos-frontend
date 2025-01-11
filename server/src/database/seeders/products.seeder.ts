@@ -237,7 +237,7 @@ const productsInitial: ProductInsert[] = [
     unitOfMeasurementId: 1,
     stock: 90,
     brandId: 1, // Nestlé
-    categoryId: 6,
+    categoryId: 5,
     supplierId: 6, // Distribuidora Alimentos S.A.
     productStatusId: 1,
   },

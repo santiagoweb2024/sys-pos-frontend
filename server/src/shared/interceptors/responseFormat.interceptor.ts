@@ -17,30 +17,35 @@ export class ResponseFormatInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<ApiResponse<T>> {
-    return next.handle().pipe(
-      map((responseData) => {
-        // Si ya tiene el formato correcto, retornarlo como está
-        if (responseData?.statusCode && responseData?.message) {
-          return responseData;
-        }
+    return next
+      .handle()
+      .pipe(map((responseData) => this.formatSuccess(responseData, context)));
+  }
 
-        // Obtener el status de la respuesta HTTP
-        const response = context.switchToHttp().getResponse();
-        const statusCode = response.statusCode;
+  private formatSuccess(
+    responseData: any,
+    context: ExecutionContext,
+  ): ApiResponse<T> {
+    // Si ya tiene el formato correcto, retornarlo como está
+    if (responseData?.statusCode && responseData?.message) {
+      return responseData;
+    }
 
-        // Extraer type, data, message y meta del responseData
-        const { type, data, meta, message } = responseData;
+    // Obtener el status de la respuesta HTTP
+    const response = context.switchToHttp().getResponse();
+    const statusCode = response.statusCode;
 
-        // Construir la respuesta con el formato correcto
-        return {
-          statusCode,
-          message: message || this.getDefaultMessage(statusCode),
-          type,
-          data: data || responseData,
-          ...(meta && { meta }),
-        };
-      }),
-    );
+    // Extraer type, data, message y meta del responseData
+    const { type, data, meta, message } = responseData;
+
+    // Construir la respuesta con el formato correcto
+    return {
+      statusCode,
+      message: message || this.getDefaultMessage(statusCode),
+      type: type || 'success',
+      data: data || responseData,
+      ...(meta && { meta }),
+    };
   }
 
   private getDefaultMessage(statusCode: number): string {

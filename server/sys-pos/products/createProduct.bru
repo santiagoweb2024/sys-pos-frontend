@@ -1,0 +1,28 @@
+meta {
+  name: createProduct
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "sku": "1234567891121",
+    "upc": "1234567897890",
+    "name": "takis11",
+    "description": "botanas picantes",
+    "salePrice": "7.80",
+    "purchasePrice": "7.00",
+    "unitOfMeasurementId":2,
+    "stock":0,
+    "brandId":20,
+    "categoryId":20,
+    "supplierId":7,
+    "productStatusId":4
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: updateProduct
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{BASE_URL}}products/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {"name":"cocacola3"}
+}

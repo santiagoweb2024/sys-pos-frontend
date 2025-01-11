@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
@@ -9,74 +13,88 @@ import { PaginationHelper } from '@/shared/helpers/pagination.helper';
 export class ProductService {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  async getAllProducts(query: GetProductQueryDto) {
-    const { name, ...paginationQuery } = query;
+  private buildProductFilter(name?: string, sku?: string, upc?: string) {
+    const filter = {
+      ...(name && { name }),
+      ...(sku && { sku }),
+      ...(upc && { upc }),
+    };
+    return Object.keys(filter).length > 0 ? filter : undefined;
+  }
 
-    // Convertir parámetros de consulta a parámetros de base de datos
+  private validatePrices(salePrice: number, purchasePrice: number) {
+    if (salePrice <= purchasePrice) {
+      throw new BadRequestException(
+        'El precio de venta debe ser mayor al precio de compra',
+      );
+    }
+
+    const margin = ((salePrice - purchasePrice) / purchasePrice) * 100;
+    if (margin < 10) {
+      throw new BadRequestException(
+        'El margen de ganancia debe ser al menos 10%',
+      );
+    }
+  }
+
+  async getAllProducts(query: GetProductQueryDto) {
+    const { name, sku, upc, ...paginationQuery } = query;
     const { limit, offset } = PaginationHelper.toDatabase(paginationQuery);
 
-    // Obtener datos con paginación de la base de datos
     const { items, total } = await this.productRepository.findAll({
       limit,
       offset,
-      filter: name ? { name } : undefined,
-    });
-
-    // Calcular el total de páginas
-    const totalPages = Math.ceil(total / limit);
-
-    // Crear meta información con paginación y links
-    const { meta } = PaginationHelper.createMeta({
-      totalItems: total,
-      itemCount: items.length,
-      itemsPerPage: limit,
-      totalPages,
-      currentPage: Math.floor(offset / limit) + 1,
-      path: 'products',
-      query: name ? { name } : {}, // Pasamos el name si existe
+      filter: this.buildProductFilter(name, sku, upc),
     });
 
     return {
-      type: 'products',
-      message: `Se encontraron ${items.length} productos`,
-      data: items,
-      meta,
+      items,
+      meta: PaginationHelper.createMeta({
+        totalItems: total,
+        itemCount: items.length,
+        itemsPerPage: limit,
+        totalPages: Math.ceil(total / limit),
+        currentPage: Math.floor(offset / limit) + 1,
+        path: 'products',
+        query: { name, sku, upc },
+      }),
     };
   }
 
   async getProductById(id: number) {
     const product = await this.productRepository.findById(id);
-    return {
-      type: 'products',
-      message: 'Producto encontrado',
-      data: product,
-    };
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+    return product;
   }
 
   async createProduct(data: CreateProductDto) {
-    const product = await this.productRepository.create(data);
-    return {
-      type: 'products',
-      message: 'Producto creado exitosamente',
-      data: product,
-    };
+    const salePrice = parseFloat(data.salePrice);
+    const purchasePrice = parseFloat(data.purchasePrice);
+
+    this.validatePrices(salePrice, purchasePrice);
+
+    return await this.productRepository.create(data);
   }
 
   async updateProduct(id: number, data: UpdateProductDto) {
-    const product = await this.productRepository.update(id, data);
-    return {
-      type: 'products',
-      message: 'Producto actualizado exitosamente',
-      data: product,
-    };
+    const existingProduct = await this.getProductById(id);
+
+    if (data.salePrice || data.purchasePrice) {
+      const salePrice = parseFloat(data.salePrice || existingProduct.salePrice);
+      const purchasePrice = parseFloat(
+        data.purchasePrice || existingProduct.purchasePrice,
+      );
+
+      this.validatePrices(salePrice, purchasePrice);
+    }
+
+    return await this.productRepository.update(id, data);
   }
 
   async deleteProduct(id: number) {
-    await this.productRepository.delete(id);
-    return {
-      type: 'products',
-      message: 'Producto eliminado exitosamente',
-      data: null,
-    };
+    await this.getProductById(id);
+    return await this.productRepository.delete(id);
   }
 }

@@ -1,0 +1,19 @@
+meta {
+  name: addProductToSale
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}sales/7/add-product
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "productId": 2,
+    "quantity": 3,
+    "unitPrice": 2.50
+  }
+}
