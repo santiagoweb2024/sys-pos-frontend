@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { config } from './shared/config/config';
 import { ProductModule } from './modules/products/product.module';
 import { SaleModule } from './modules/sales/sale.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SaleModule } from './modules/sales/sale.module';
     DatabaseModule,
     ProductModule,
     SaleModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

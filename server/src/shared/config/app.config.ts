@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ResponseFormatInterceptor } from '../interceptors/responseFormat.interceptor';
 import { GlobalExceptionFilter } from '../filters/httpException.filter';
 /**
  * Configuración global de la aplicación

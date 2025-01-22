@@ -5,15 +5,17 @@ import { Db } from '@/shared/types/database/common/database.types';
 import { Inject, Injectable } from '@nestjs/common';
 import { and, count, eq, isNull, SQL } from 'drizzle-orm';
 import { CreateSaleDto } from './dto/createSale.dto';
-import { AddProductToSaleDto } from './dto/addProductToSale.dto';
-import { ConfirmSaleDto } from './dto/confirmSale.dto';
-import { SaleDetailInsert } from '@/shared/types/database/entities/saleDetail.types';
+import {
+  SaleDetailInsert,
+  UpdateSaleDetailData,
+} from '@/shared/types/database/entities/saleDetail.types';
+import { SaleConfirm } from '@/shared/types/database/entities/sale.types';
 
 @Injectable()
 export class SaleRepository {
   constructor(@Inject(DB_CONNECTION) private readonly db: Db) {}
 
-  async findAll({
+  async getAllSales({
     limit,
     offset,
     filter,
@@ -57,12 +59,7 @@ export class SaleRepository {
     };
   }
 
-  async create(data: CreateSaleDto) {
-    const [newSale] = await this.db.insert(sales).values(data).returning();
-    return newSale;
-  }
-
-  async findById(saleId: number) {
+  async getSaleById(saleId: number) {
     const sale = await this.db
       .select()
       .from(sales)
@@ -71,7 +68,7 @@ export class SaleRepository {
     return sale;
   }
 
-  async findByIdWithDetails(saleId: number) {
+  async getSaleWithDetails(saleId: number) {
     const sale = await this.db
       .select()
       .from(sales)
@@ -91,30 +88,72 @@ export class SaleRepository {
     };
   }
 
-  async addProductToSale(saleId: number, data: AddProductToSaleDto) {
-    const saleDetailData: SaleDetailInsert = {
-      saleId,
-      productId: data.productId,
-      quantity: data.quantity,
-      unitPrice: data.unitPrice.toString(),
-      subTotal: (data.quantity * data.unitPrice).toString(),
-    };
-
-    await this.db.insert(saleDetails).values(saleDetailData).returning();
-
-    return this.findByIdWithDetails(saleId);
+  async createSale(data: CreateSaleDto) {
+    const [newSale] = await this.db.insert(sales).values(data).returning();
+    return newSale;
   }
 
-  async confirmSale(saleId: number, data: ConfirmSaleDto) {
-    await this.db
-      .update(sales)
-      .set({
-        status: 'CLOSED',
-        ...data,
-      })
-      .where(eq(sales.id, saleId))
+  async addProductToSale(data: SaleDetailInsert) {
+    const [saleDetail] = await this.db
+      .insert(saleDetails)
+      .values(data)
       .returning();
 
-    return this.findByIdWithDetails(saleId);
+    return this.getSaleWithDetails(saleDetail.saleId);
+  }
+
+  async confirmSale(data: SaleConfirm) {
+    const { id, paymentMethodId, status } = data;
+    const [updatedSale] = await this.db
+      .update(sales)
+      .set({ status, paymentMethodId })
+      .where(eq(sales.id, id))
+      .returning();
+
+    return updatedSale;
+  }
+
+  async removeProductFromSale(data: { saleId: number; productId: number }) {
+    const { saleId, productId } = data;
+    const [removedDetail] = await this.db
+      .update(saleDetails)
+      .set({
+        deletedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(saleDetails.saleId, saleId),
+          eq(saleDetails.productId, productId),
+          isNull(saleDetails.deletedAt),
+        ),
+      )
+      .returning();
+
+    return removedDetail;
+  }
+
+  async getSaleDetailById(id: number) {
+    const detail = await this.db
+      .select()
+      .from(saleDetails)
+      .where(and(eq(saleDetails.id, id), isNull(saleDetails.deletedAt)))
+      .then((res) => res[0] || null);
+
+    return detail;
+  }
+
+  async updateProductInSale(data: UpdateSaleDetailData, subTotal: string) {
+    const { id, quantity } = data;
+
+    const [updatedDetail] = await this.db
+      .update(saleDetails)
+      .set({
+        quantity,
+        subTotal,
+      })
+      .where(and(eq(saleDetails.id, id), isNull(saleDetails.deletedAt)))
+      .returning();
+
+    return updatedDetail;
   }
 }

@@ -1,0 +1,16 @@
+meta {
+  name: getMovements
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BASE_URL}}inventory/movements?page=1&limit=10
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  limit: 10
+}

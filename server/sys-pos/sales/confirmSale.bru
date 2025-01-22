@@ -1,0 +1,17 @@
+meta {
+  name: confirmSale
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{BASE_URL}}sales/9/status
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "paymentMethodId": 1
+  }
+}

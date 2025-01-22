@@ -1,107 +1,80 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  ParseIntPipe,
-  Patch,
   Post,
+  Patch,
+  Delete,
+  Param,
   Query,
+  Body,
+  ParseIntPipe,
   UsePipes,
 } from '@nestjs/common';
-import { InventoryService } from './inventory.service';
-import { createProductSchema, CreateProductDto } from './dto/createProduct.dto';
-import { updateProductSchema, UpdateProductDto } from './dto/updateProduct.dto';
-import { adjustStockSchema, AdjustStockDto } from './dto/adjustStock.dto';
+import { AdjustStockDto } from './dto/adjustStock.dto';
+import { CreateBatchDto } from './dto/createBatch.dto';
+import { UpdateBatchDto } from './dto/updateBatch.dto';
+import {
+  GetMovementQueryDto,
+  getMovementQuerySchema,
+} from './dto/getMovement.dto';
 import { ZodValidationPipe } from '@/shared/pipes/zodValidation.pipe';
-
+import { InventoryService } from './inventory.service';
 @Controller('inventory')
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
+  // Movimientos de Inventario
+  @Get('movements')
+  @UsePipes(new ZodValidationPipe(getMovementQuerySchema))
+  async getMovements(
+    @Query()
+    movementQuery: GetMovementQueryDto,
+  ) {
+    console.log(movementQuery);
+    await this.inventoryService.getMovements(movementQuery);
+  }
 
-  @Get('products')
-  async findAllProducts(
+  @Get('movements/:productId')
+  getProductMovements(
+    @Param('productId', ParseIntPipe) productId: number,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('type') type?: 'IN' | 'OUT',
     @Query('page', ParseIntPipe) page = 1,
     @Query('limit', ParseIntPipe) limit = 10,
-    @Query('categoryId', ParseIntPipe) categoryId?: number,
-    @Query('brandId', ParseIntPipe) brandId?: number,
-    @Query('supplierId', ParseIntPipe) supplierId?: number,
-    @Query('productStatusId', ParseIntPipe) productStatusId?: number,
-  ) {
-    return this.inventoryService.findAllProducts({
-      page,
-      limit,
-      filter: {
-        categoryId,
-        brandId,
-        supplierId,
-        productStatusId,
-      },
-    });
-  }
+  ) {}
 
-  @Get('products/:id')
-  async findProductById(@Param('id', ParseIntPipe) id: number) {
-    const product = await this.inventoryService.findProductById(id);
-    return {
-      statusCode: 200,
-      type: 'products',
-      message: 'Producto encontrado exitosamente',
-      data: product,
-    };
-  }
+  // Stock
+  @Get('stock/:productId')
+  getProductStock(@Param('productId', ParseIntPipe) productId: number) {}
 
-  @Post('products')
-  @UsePipes(new ZodValidationPipe(createProductSchema))
-  async createProduct(@Body() data: CreateProductDto) {
-    const product = await this.inventoryService.createProduct(data);
-    return {
-      statusCode: 201,
-      type: 'products',
-      message: 'Producto creado exitosamente',
-      data: product,
-    };
-  }
+  @Patch('stock/:productId/adjust')
+  adjustStock(
+    @Param('productId', ParseIntPipe) productId: number,
+    @Body() adjustStockDto: AdjustStockDto,
+  ) {}
 
-  @Patch('products/:id')
-  @UsePipes(new ZodValidationPipe(updateProductSchema))
-  async updateProduct(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdateProductDto,
-  ) {
-    const product = await this.inventoryService.updateProduct(id, data);
-    return {
-      statusCode: 200,
-      type: 'products',
-      message: 'Producto actualizado exitosamente',
-      data: product,
-    };
-  }
+  // Lotes (Batches)
+  @Get('batches')
+  getBatches(
+    @Query('productId', ParseIntPipe) productId?: number,
+    @Query('expirationBefore') expirationBefore?: string,
+    @Query('expirationAfter') expirationAfter?: string,
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 10,
+  ) {}
 
-  @Delete('products/:id')
-  async deleteProduct(@Param('id', ParseIntPipe) id: number) {
-    const product = await this.inventoryService.deleteProduct(id);
-    return {
-      statusCode: 200,
-      type: 'products',
-      message: 'Producto eliminado exitosamente',
-      data: product,
-    };
-  }
+  @Get('batches/:batchId')
+  getBatchById(@Param('batchId', ParseIntPipe) batchId: number) {}
 
-  @Post('products/:id/adjust-stock')
-  @UsePipes(new ZodValidationPipe(adjustStockSchema))
-  async adjustStock(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: AdjustStockDto,
-  ) {
-    const product = await this.inventoryService.adjustStock(id, data);
-    return {
-      statusCode: 200,
-      type: 'products',
-      message: 'Stock ajustado exitosamente',
-      data: product,
-    };
-  }
+  @Post('batches')
+  createBatch(@Body() createBatchDto: CreateBatchDto) {}
+
+  @Patch('batches/:batchId')
+  updateBatch(
+    @Param('batchId', ParseIntPipe) batchId: number,
+    @Body() updateBatchDto: UpdateBatchDto,
+  ) {}
+
+  @Delete('batches/:batchId')
+  deleteBatch(@Param('batchId', ParseIntPipe) batchId: number) {}
 }

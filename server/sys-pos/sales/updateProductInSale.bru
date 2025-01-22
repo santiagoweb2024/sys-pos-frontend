@@ -1,0 +1,17 @@
+meta {
+  name: updateProductInSale
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{BASE_URL}}sales/6/products/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quantity": 1
+  }
+}
