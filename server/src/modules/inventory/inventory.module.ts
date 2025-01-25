@@ -7,7 +7,7 @@ import { ProductModule } from '../products/product.module';
 @Module({
   imports: [ProductModule], // Importamos ProductModule para usar su servicio
   controllers: [InventoryController],
-  providers: [InventoryService],
+  providers: [InventoryService, InventoryRepository],
   exports: [],
 })
 export class InventoryModule {}

@@ -25,15 +25,14 @@ export class InventoryController {
   // Movimientos de Inventario
   @Get('movements')
   @UsePipes(new ZodValidationPipe(getMovementQuerySchema))
-  async getMovements(
+  async getAllMovements(
     @Query()
     movementQuery: GetMovementQueryDto,
   ) {
-    console.log(movementQuery);
-    await this.inventoryService.getMovements(movementQuery);
+    return this.inventoryService.getAllMovements(movementQuery);
   }
 
-  @Get('movements/:productId')
+/*   @Get('movements/:productId')
   getProductMovements(
     @Param('productId', ParseIntPipe) productId: number,
     @Query('startDate') startDate?: string,
@@ -76,5 +75,5 @@ export class InventoryController {
   ) {}
 
   @Delete('batches/:batchId')
-  deleteBatch(@Param('batchId', ParseIntPipe) batchId: number) {}
+  deleteBatch(@Param('batchId', ParseIntPipe) batchId: number) {} */
 }

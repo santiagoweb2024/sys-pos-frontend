@@ -1,18 +1,47 @@
 import { z } from 'zod';
 import { InventoryInsert } from '@/shared/types/database/entities/inventory.types';
-type MovementQuery = {
-  page?: number;
-  limit?: number;
+import { movementTypeEnum } from '@/database/schemas/inventories.schema';
+const movementTypeValues = movementTypeEnum.enumValues;
+
+type MovementQueryIn = {
+  page?: string;
+  limit?: string;
   productId?: string;
-  type?: Pick<InventoryInsert, 'movementType'>;
+  type?: string;
   startDate?: string;
   endDate?: string;
 };
-export const getMovementQuerySchema: z.ZodType<MovementQuery> = z.object({
-  page: z.coerce.number().optional(),
-  limit: z.coerce.number().optional(),
-  productId: z.string().optional(),
-  type: z.string().optional(),
+
+type MovementQueryOut = {
+  page?: number;
+  limit?: number;
+  productId?: InventoryInsert['productId'];
+  type?: InventoryInsert['movementType'];
+  startDate?: string;
+  endDate?: string;
+};
+
+export const getMovementQuerySchema: z.ZodType<
+  MovementQueryOut,
+  z.ZodTypeDef,
+  MovementQueryIn
+> = z.object({
+  page: z
+    .string()
+    .transform((val) => Number(val))
+    .optional(),
+  limit: z
+    .string()
+    .transform((val) => Number(val))
+    .optional(),
+  productId: z
+    .string()
+    .transform((val) => {
+      if (val === '') return undefined;
+      return Number(val);
+    })
+    .optional(),
+  type: z.enum(movementTypeValues).optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
 });

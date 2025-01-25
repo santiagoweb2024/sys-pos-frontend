@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}inventory/movements?page=1&limit=10
+  url: {{BASE_URL}}inventory/movements?page=1&limit=10&productId&type=IN&startDate&endDate
   body: none
   auth: none
 }
@@ -13,4 +13,8 @@ get {
 params:query {
   page: 1
   limit: 10
+  productId: 
+  type: IN
+  startDate: 
+  endDate: 
 }

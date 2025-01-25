@@ -1,13 +1,15 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GlobalExceptionFilter } from '../filters/httpException.filter';
+import { movementTypeEnum } from '@/database/schemas/inventories.schema';
 /**
  * Configuración global de la aplicación
  * @param app Instancia de la aplicación NestJS
  */
 export function setupApp(app: INestApplication) {
   const configService = app.get(ConfigService);
-
+  const movementTypeValues = movementTypeEnum.enumValues;
+  console.log('-->', movementTypeValues);
   // Configuración global de pipes
   app.useGlobalPipes();
 
