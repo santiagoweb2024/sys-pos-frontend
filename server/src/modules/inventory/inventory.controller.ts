@@ -29,29 +29,35 @@ export class InventoryController {
     @Query()
     movementQuery: GetMovementQueryDto,
   ) {
-    return this.inventoryService.getAllMovements(movementQuery);
+    const { items, meta } =
+      await this.inventoryService.getAllMovements(movementQuery);
+    return {
+      statusCode: 200,
+      type: 'movements',
+      message: `Se encontraron ${items.length} movimientos`,
+      data: items,
+      ...meta,
+    };
   }
-
-/*   @Get('movements/:productId')
-  getProductMovements(
-    @Param('productId', ParseIntPipe) productId: number,
-    @Query('startDate') startDate?: string,
-    @Query('endDate') endDate?: string,
-    @Query('type') type?: 'IN' | 'OUT',
-    @Query('page', ParseIntPipe) page = 1,
-    @Query('limit', ParseIntPipe) limit = 10,
-  ) {}
 
   // Stock
   @Get('stock/:productId')
-  getProductStock(@Param('productId', ParseIntPipe) productId: number) {}
-
+  async getProductStock(@Param('productId', ParseIntPipe) productId: number) {
+    const stock = await this.inventoryService.getProductStock(productId);
+    return {
+      statusCode: 200,
+      type: 'stock',
+      message: `Stock actual del producto ${productId}`,
+      data: stock,
+    };
+  }
+  /* 
   @Patch('stock/:productId/adjust')
   adjustStock(
     @Param('productId', ParseIntPipe) productId: number,
     @Body() adjustStockDto: AdjustStockDto,
   ) {}
-
+  
   // Lotes (Batches)
   @Get('batches')
   getBatches(

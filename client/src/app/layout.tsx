@@ -5,11 +5,13 @@ import Navbar from "@/components/navbar/navbar";
 import ClientSidebar from "@/components/sidebar/clientSidebar";
 import clsx from "clsx";
 import ThemeProviderWrapper from "./themeProviderWrapper";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -29,18 +31,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={clsx(geistSans.variable, geistMono.variable, "antialiased")}
+        className={clsx(
+          geistSans.variable,
+          geistMono.variable,
+          "antialiased bg-surface-100 dark:bg-surface-900"
+        )}
       >
         <ThemeProviderWrapper>
-          <main className="flex min-h-screen">
+          <main className="flex min-h-screen bg-surface-100 dark:bg-surface-900">
             <div className="h-screen min-h-screen sticky top-0">
               <ClientSidebar />
             </div>
-            <div className="w-full mx-2">
-              <div className="h-[60px] z-10 bg-white dark:bg-gray-900 sticky top-0">
+            <div className=" mx-2 flex-1 flex flex-col w-full">
+              <div className="h-[60px] z-50 bg-surface-50 dark:bg-surface-800 backdrop-blur-sm sticky top-0">
                 <Navbar />
               </div>
-              <div className="min-h-[calc(100vh-60px-8px)] mt-2">{children}</div>
+              <div className="flex-1 mt-2 relative">
+                {children}
+              </div>
             </div>
           </main>
         </ThemeProviderWrapper>
@@ -48,4 +56,3 @@ export default function RootLayout({
     </html>
   );
 }
-/* h-60  w-16 w-64*/

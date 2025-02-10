@@ -15,7 +15,7 @@ async function bootstrap() {
   // Registrar el filtro global de excepciones
   app.useGlobalFilters(new GlobalExceptionFilter());
 
-  await app.listen(3000);
+  await app.listen(3500);
 }
 
 bootstrap();

@@ -16,7 +16,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full h-[60px] flex justify-between items-center border-b border-gray-200 dark:border-gray-800  px-4">
+    <nav className="w-full h-[60px] flex justify-between items-center border-b border-surface-200 dark:border-surface-800  px-4">
       {/* Sección izquierda */}
       <div className="flex items-center gap-4">
         <button onClick={toggleSidebar}>
@@ -32,7 +32,7 @@ export default function Navbar() {
         {/* Link de configuración */}
         <Link 
           href="/configuracion"
-          className="p-2 hover:bg-accent rounded-full transition-colors"
+          className="p-2 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-full transition-colors text-surface-600 dark:text-surface-200"
           title="Configuración"
         >
           <Settings size={20} />

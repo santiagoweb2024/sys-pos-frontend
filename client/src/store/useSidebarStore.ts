@@ -6,6 +6,6 @@ interface SidebarStore {
 }
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
-    isCollapsed: false,
+    isCollapsed: true,
     toggleSidebar: () => set((state) => ({ isCollapsed: !state.isCollapsed })),
 }));

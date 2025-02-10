@@ -8,19 +8,11 @@ import { CreateProductDto } from './dto/createProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
 import { GetProductQueryDto } from './dto/getProduct.dto';
 import { PaginationHelper } from '@/shared/helpers/pagination.helper';
+import { buildGenericFilter } from '@/shared/utils/filterBuilder.util';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly productRepository: ProductRepository) {}
-
-  private buildProductFilter(name?: string, sku?: string, upc?: string) {
-    const filter = {
-      ...(name && { name }),
-      ...(sku && { sku }),
-      ...(upc && { upc }),
-    };
-    return Object.keys(filter).length > 0 ? filter : undefined;
-  }
 
   private validatePrices(salePrice: number, purchasePrice: number) {
     if (salePrice <= purchasePrice) {
@@ -40,12 +32,11 @@ export class ProductService {
   async getAllProducts(query: GetProductQueryDto) {
     const { name, sku, upc, ...paginationQuery } = query;
     const { limit, offset } = PaginationHelper.toDatabase(paginationQuery);
-
-    const { items, total } = await this.productRepository.findAll({
-      limit,
-      offset,
-      filter: this.buildProductFilter(name, sku, upc),
-    });
+    const filters = buildGenericFilter({ name, sku, upc });
+    const { items, total } = await this.productRepository.findAll(
+      { limit, offset },
+      filters,
+    );
 
     return {
       items,
@@ -56,7 +47,7 @@ export class ProductService {
         totalPages: Math.ceil(total / limit),
         currentPage: Math.floor(offset / limit) + 1,
         path: 'products',
-        query: { name, sku, upc },
+        query,
       }),
     };
   }

@@ -1,20 +1,20 @@
 import { ReactNode } from "react";
-import clsx from "clsx";
+import { cn } from "@/utils/cn.util";
 
 interface Column<T> {
   key: keyof T | string;
-  header: string;
+  header: ReactNode;
   render?: (item: T) => ReactNode;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
   className?: string;
 }
 
 interface DataTableProps<T> {
   data: T[];
   columns: Column<T>[];
-  className?: string;
   tableClassName?: string;
   headerClassName?: string;
+  bodyClassName?: string;
   rowClassName?: string | ((item: T) => string);
   emptyMessage?: string;
 }
@@ -22,24 +22,28 @@ interface DataTableProps<T> {
 export default function DataTable<T>({
   data,
   columns,
-  className,
   tableClassName,
   headerClassName,
+  bodyClassName,
   rowClassName,
-  emptyMessage = "No hay datos disponibles"
+  emptyMessage = "No hay datos disponibles",
 }: DataTableProps<T>) {
   return (
-    <div className={clsx("overflow-x-auto", className)}>
-      <table className={clsx("w-full border-collapse", tableClassName)}>
-        <thead className={clsx("bg-gray-50", headerClassName)}>
+      <table className={cn(tableClassName)}>
+        <thead
+          className={cn(
+            "truncate bg-surface-50/80 dark:bg-surface-800/80 backdrop-blur-sm border-b border-surface-200 dark:border-surface-700/50 sticky top-0 z-10",
+            headerClassName
+          )}
+        >
           <tr>
             {columns.map((column) => (
               <th
                 key={column.key.toString()}
-                className={clsx(
-                  "p-2",
-                  column.align === 'right' && "text-right",
-                  column.align === 'center' && "text-center",
+                className={cn(
+                  "text-left font-semibold uppercase tracking-wide",
+                  column.align === "right" && "text-right",
+                  column.align === "center" && "text-center",
                   column.className
                 )}
               >
@@ -48,12 +52,12 @@ export default function DataTable<T>({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={cn('divide-y divide-surface-200/75 dark:divide-surface-700/50',bodyClassName)}>
           {data.length === 0 ? (
             <tr>
               <td
                 colSpan={columns.length}
-                className="text-center py-4 text-gray-500"
+                className="text-center py-6 text-surface-500 dark:text-surface-400"
               >
                 {emptyMessage}
               </td>
@@ -62,24 +66,24 @@ export default function DataTable<T>({
             data.map((item, index) => (
               <tr
                 key={index}
-                className={clsx(
-                  "border-b hover:bg-gray-50",
-                  typeof rowClassName === 'function' 
-                    ? rowClassName(item) 
+                className={cn(
+                  "hover:bg-surface-50/50 dark:hover:bg-surface-700/50 transition-colors",
+                  typeof rowClassName === "function"
+                    ? rowClassName(item)
                     : rowClassName
                 )}
               >
                 {columns.map((column) => (
                   <td
                     key={column.key.toString()}
-                    className={clsx(
-                      "p-2",
-                      column.align === 'right' && "text-right",
-                      column.align === 'center' && "text-center",
+                    className={cn(
+                      "p-2 text-surface-700 dark:text-surface-300",
+                      column.align === "right" && "text-right",
+                      column.align === "center" && "text-center",
                       column.className
                     )}
                   >
-                    {column.render 
+                    {column.render
                       ? column.render(item)
                       : String(item[column.key as keyof T])}
                   </td>
@@ -88,7 +92,6 @@ export default function DataTable<T>({
             ))
           )}
         </tbody>
-      </table>
-    </div>
+      </table>   
   );
-} 
+}

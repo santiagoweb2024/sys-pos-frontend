@@ -15,7 +15,7 @@ import { productStatus } from './productStatus.schema';
 import { productByBatches } from './productsByBatches.schema';
 import { inventories } from './inventories.schema';
 import { saleDetails } from './saleDetails.schema';
-
+import { productImages } from './productImages.schema';
 export const products = pgTable('products', {
   id: serial().primaryKey(),
   sku: varchar().notNull().unique(),
@@ -67,4 +67,5 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   productByBatches: many(productByBatches),
   inventories: many(inventories),
   saleDetails: many(saleDetails),
+  productImages: many(productImages),
 }));

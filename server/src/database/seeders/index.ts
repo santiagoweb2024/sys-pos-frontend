@@ -23,6 +23,7 @@ import { seedExpenses } from './expenses.seeder';
 import { seedSaleDetails } from './saleDetails.seeder';
 import { seedInventories } from './inventories.seeder';
 import { seedProductsByBatches } from './productsByBatches.seeder';
+import { seedProductImages } from './productImages.seeder';
 import { config } from '@/shared/config/config';
 
 const execAsync = promisify(exec);
@@ -62,6 +63,7 @@ async function seed(db: Db) {
     await seedSaleDetails(db); // Depende de sales y products
     await seedInventories(db); // Depende de products
     await seedProductsByBatches(db); // Depende de products
+    await seedProductImages(db); // Depende de products
 
     console.log('✅ Seeders completados exitosamente');
   } catch (error) {

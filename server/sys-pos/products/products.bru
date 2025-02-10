@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}products?name=a
+  url: {{BASE_URL}}products?limit=20
   body: none
   auth: none
 }
 
 params:query {
-  name: a
+  limit: 20
+  ~name: a
   ~sku: ACEITE-001
   ~upc: 7751271027876
 }
