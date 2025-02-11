@@ -59,7 +59,7 @@ const ItemCarrito = ({ producto, cantidad, onRemover, onActualizarCantidad }: It
 
 export default function CarritoVenta({ carrito, onRemoverProducto, onActualizarCantidad }: CarritoVentaProps) {
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto rounded-xl bg-white border border-gray-100 shadow-sm mb-4">
+    <div className="flex-1 min-h-0 overflow-y-auto rounded-xl bg-white border border-gray-100 shadow-xs mb-4">
       {carrito.length === 0 ? (
         <div className="h-full flex flex-col items-center justify-center p-4">
           <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-2">

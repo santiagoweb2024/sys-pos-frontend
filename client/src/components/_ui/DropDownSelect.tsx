@@ -1,18 +1,23 @@
-import { cva } from "class-variance-authority";
+import { ChangeEvent, ReactNode } from "react";
 import { cn } from "@/utils/cn.util";
-import { ChangeEvent } from "react";
+import { cva } from "class-variance-authority";
 
 type Option = {
   value: string;
-  label: string;
+  label: string | ReactNode; // Permite opciones personalizadas (texto, iconos, etc.)
 };
 
 type DropdownSelectProps = {
   label?: string;
   options: Option[];
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
+  value?: string | string[]; // Puede ser un solo valor o varios valores
+  onChange?: (value: string | string[]) => void; // Función para manejar cambios
   className?: string;
+  placeholder?: string;
+  multiple?: boolean; // Para habilitar selección múltiple
+  isLoading?: boolean; // Para manejar el estado de carga
+  renderOption?: (option: Option) => ReactNode; // Permite personalizar el renderizado de las opciones
+  disabled?: boolean; // Para deshabilitar el select
 };
 
 const dropdownSelectStyles = cva(
@@ -37,21 +42,45 @@ export const DropdownSelect = ({
   value,
   onChange,
   className,
+  placeholder = "Seleccione una opción",
+  multiple = false,
+  isLoading = false,
+  renderOption,
+  disabled = false,
 }: DropdownSelectProps) => {
+  // Manejador de cambios de selección
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newValue = event.target.value;
+    if (multiple) {
+      const selectedValues = Array.from(event.target.selectedOptions, (option) => option.value);
+      onChange && onChange(selectedValues); // Llamada al onChange con los valores seleccionados
+    } else {
+      onChange && onChange(newValue); // Llamada al onChange con un único valor
+    }
+  };
+
   return (
     <div className="flex flex-col gap-1">
       {label && <label className="text-sm text-surface-700 dark:text-surface-300">{label}</label>}
       <select
         value={value}
-        onChange={onChange}
+        onChange={handleSelectChange}
         className={cn(dropdownSelectStyles(), className)}
+        multiple={multiple}
+        disabled={isLoading || disabled} // Desactivar si está en carga o deshabilitado
       >
-        <option value="">Seleccione una opción</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {isLoading ? (
+          <option disabled>Cargando...</option>
+        ) : (
+          options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {renderOption ? renderOption(option) : option.label}
+            </option>
+          ))
+        )}
       </select>
     </div>
   );

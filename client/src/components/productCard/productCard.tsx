@@ -23,7 +23,7 @@ export default function ProductCard({
   return (
     <Element
       onClick={onClick}
-      className={`bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border  border-gray-20`}
+      className={`bg-white p-4 rounded-xl shadow-xs hover:shadow-md transition-shadow duration-200 border  border-gray-20`}
     >
       <div className="relative flex-1">
         <img

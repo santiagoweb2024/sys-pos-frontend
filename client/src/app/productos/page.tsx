@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { ProductsHeader } from "./(components)/ProductsHeader";
 import { clsx } from "clsx";
 import SearchBar from "@/components/searchBar/searchBar";
+import { ProductFilter } from "./(components)/ProductFilter";
 export default function Productos() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [productoEditar, setProductoEditar] = useState<Producto | undefined>();
@@ -109,7 +110,7 @@ export default function Productos() {
     {
       key: "id",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Id
           <ArrowUpDown className="size-3.5 text-surface-400" />
         </div>
@@ -119,7 +120,7 @@ export default function Productos() {
     {
       key: "sku",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Código
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -129,7 +130,7 @@ export default function Productos() {
     {
       key: "nombre",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Nombre del Producto
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -141,14 +142,14 @@ export default function Productos() {
             <img
               src={producto.images[0].imageUrl}
               alt={producto.name}
-              className="w-12 h-12 object-cover rounded-lg border border-surface-200/50"
+              className="border border-surface-200/50 rounded-lg w-12 h-12 object-cover"
             />
           )}
           <div className="flex flex-col">
             <span className="font-medium text-surface-900 dark:text-surface-100">
               {producto.name}
             </span>
-            <span className="text-sm text-surface-500">
+            <span className="text-surface-500 text-sm">
               SKU: {producto.sku}
             </span>
           </div>
@@ -158,7 +159,7 @@ export default function Productos() {
     {
       key: "precio",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Precio
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -176,7 +177,7 @@ export default function Productos() {
     {
       key: "stock",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Inventario
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -186,7 +187,7 @@ export default function Productos() {
         <div className="flex items-center gap-3">
           <span
             className={clsx(
-              "flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium",
+              "flex items-center gap-2 px-2.5 py-1 rounded-full font-medium text-xs",
               {
                 "bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400":
                   producto.stock > 10,
@@ -197,7 +198,7 @@ export default function Productos() {
               }
             )}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-current" />
+            <span className="bg-current rounded-full w-1.5 h-1.5" />
             {producto.stock === 0 ? "Sin stock" : `${producto.stock} unidades`}
           </span>
         </div>
@@ -206,7 +207,7 @@ export default function Productos() {
     {
       key: "categoria",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Categoría
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -221,14 +222,14 @@ export default function Productos() {
     {
       key: "codigo",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Código
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
       ),
       className: "py-4 px-6 whitespace-nowrap",
       render: (producto: Producto) => (
-        <div className="font-mono text-sm text-surface-700 dark:text-surface-300">
+        <div className="font-mono text-surface-700 dark:text-surface-300 text-sm">
           {producto.sku || "N/A"}
         </div>
       ),
@@ -236,7 +237,7 @@ export default function Productos() {
     {
       key: "costo",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Costo
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -254,7 +255,7 @@ export default function Productos() {
     {
       key: "margen",
       header: (
-        <div className="flex items-center gap-2 text-sm font-medium text-surface-500">
+        <div className="flex items-center gap-2 font-medium text-surface-500 text-sm">
           Margen
           <ArrowUpDown className="w-3.5 h-3.5 text-surface-400" />
         </div>
@@ -264,7 +265,7 @@ export default function Productos() {
         return (
           <div
             className={clsx(
-              "text-sm font-medium",
+              "font-medium text-sm",
               "text-red-600 dark:text-red-400"
             )}
           >
@@ -276,20 +277,20 @@ export default function Productos() {
     {
       key: "acciones",
       header: (
-        <div className="text-sm font-medium text-surface-500">Acciones</div>
+        <div className="font-medium text-surface-500 text-sm">Acciones</div>
       ),
       className: "py-4 px-6 text-right whitespace-nowrap",
       render: (producto: Producto) => (
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex justify-end items-center gap-2">
           <button
             onClick={() => handleEdit(producto)}
-            className="p-1.5 text-surface-500 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-500/10 rounded-md transition-colors"
+            className="hover:bg-primary-50 dark:hover:bg-primary-500/10 p-1.5 rounded-md text-surface-500 hover:text-primary-600 transition-colors"
           >
             <Edit className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleDelete(producto.id)}
-            className="p-1.5 text-surface-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-md transition-colors"
+            className="hover:bg-red-50 dark:hover:bg-red-500/10 p-1.5 rounded-md text-surface-500 hover:text-red-600 transition-colors"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -299,14 +300,15 @@ export default function Productos() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 min-h-full">
-      <div className="p-4 bg-surface-50 dark:bg-surface-800 border-surface-200 dark:border-surface-700 shadow-sm backdrop-blur-sm">
+    <div className="flex flex-col min-h-full">
+      <div className="z-50 bg-surface-100 dark:bg-surface-800 shadow-xs backdrop-blur-xs px-4 py-2 border border-surface-200 dark:border-surface-700">
         <ProductsHeader onAdd={handleAdd} />
+        <ProductFilter />
       </div>
 
       {/* Contenedor con scroll horizontal */}
-      <div className="flex-1 relative">
-        <div className="absolute inset-0 overflow-auto scrollbar-thin  dark:scrollbar-thin-error-700 ">
+      <div className="relative flex-1">
+        <div className="absolute inset-0 overflow-auto scrollbar-thin dark:scrollbar-thin-error-700">
           <DataTable
             data={productos}
             columns={columns}

@@ -124,7 +124,7 @@ export default function NuevaVenta() {
 
       {/* sección de punto de venta*/}
       <div className="w-[40%] flex flex-col bg-white shadow-lg">
-        <div className="flex-1 flex flex-col p-4 bg-gradient-to-br from-gray-50/50 to-white">
+        <div className="flex-1 flex flex-col p-4 bg-linear-to-br from-gray-50/50 to-white">
           {/* Encabezado */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex flex-col">

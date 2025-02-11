@@ -134,7 +134,7 @@ export default function Clientes() {
     <div className="p-6 space-y-6">
       {/* Estadísticas */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-blue-600">
             <UserCheck className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Total Clientes</div>
@@ -143,7 +143,7 @@ export default function Clientes() {
             {estadisticas.totalClientes}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-green-600">
             <UserCheck className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Clientes Activos</div>
@@ -152,7 +152,7 @@ export default function Clientes() {
             {estadisticas.clientesActivos}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-orange-600">
             <Calendar className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Compras Última Semana</div>
@@ -161,7 +161,7 @@ export default function Clientes() {
             {estadisticas.comprasUltimaSemana}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-green-600">
             <DollarSign className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Ventas Totales</div>
@@ -173,7 +173,7 @@ export default function Clientes() {
       </div>
 
       {/* Lista de Clientes */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Clientes</h2>
@@ -192,7 +192,7 @@ export default function Clientes() {
               placeholder="Buscar por nombre o documento..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>

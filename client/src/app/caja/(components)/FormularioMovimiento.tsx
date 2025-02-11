@@ -52,7 +52,7 @@ export default function FormularioMovimiento({ onSubmit, onClose }: FormularioMo
             <select
               value={formData.tipo}
               onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             >
               <option value="ingreso">Ingreso</option>
@@ -70,7 +70,7 @@ export default function FormularioMovimiento({ onSubmit, onClose }: FormularioMo
               min="0"
               value={formData.monto}
               onChange={(e) => setFormData({ ...formData, monto: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -83,7 +83,7 @@ export default function FormularioMovimiento({ onSubmit, onClose }: FormularioMo
               type="text"
               value={formData.concepto}
               onChange={(e) => setFormData({ ...formData, concepto: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -95,7 +95,7 @@ export default function FormularioMovimiento({ onSubmit, onClose }: FormularioMo
             <select
               value={formData.metodoPago}
               onChange={(e) => setFormData({ ...formData, metodoPago: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             >
               <option value="efectivo">Efectivo</option>
@@ -112,7 +112,7 @@ export default function FormularioMovimiento({ onSubmit, onClose }: FormularioMo
               type="text"
               value={formData.comprobante}
               onChange={(e) => setFormData({ ...formData, comprobante: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               placeholder="Número de comprobante"
             />
           </div>

@@ -34,7 +34,7 @@ export default function SearchBar({
         type="text"
         {...inputProps}
         className={clsx(
-          "w-full pl-12 pr-4 py-2 bg-surface-50 dark:bg-surface-900 text-surface-700 dark:text-surface-200 border border-surface-200 dark:border-surface-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent placeholder-surface-400 dark:placeholder-surface-500",
+          "w-full pl-12 pr-4 py-2 bg-surface-50 dark:bg-surface-900 text-surface-700 dark:text-surface-200 border border-surface-200 dark:border-surface-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent placeholder-surface-400 dark:placeholder-surface-500",
           inputClassName
         )}
       />

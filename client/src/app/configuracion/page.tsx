@@ -51,7 +51,7 @@ export default function Configuracion() {
       </div>
 
       {/* Usuarios */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-900">Usuarios</h2>
           <button
@@ -85,7 +85,7 @@ export default function Configuracion() {
       </div>
 
       {/* Empresa */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Empresa</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -108,7 +108,7 @@ export default function Configuracion() {
       </div>
 
       {/* Impuestos */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Impuestos</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -125,7 +125,7 @@ export default function Configuracion() {
       </div>
 
       {/* Facturación */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Facturación</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -148,7 +148,7 @@ export default function Configuracion() {
       </div>
 
       {/* Notificaciones */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Notificaciones</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>

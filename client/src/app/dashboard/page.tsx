@@ -44,19 +44,19 @@ export default function Dashboard() {
 
       {/* Tarjetas de resumen */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-gray-500">Ventas de Hoy</h3>
           <p className="text-2xl font-bold">$1,234</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-gray-500">Productos Vendidos</h3>
           <p className="text-2xl font-bold">45</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-gray-500">Clientes Atendidos</h3>
           <p className="text-2xl font-bold">28</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-gray-500">Productos Bajos en Stock</h3>
           <p className="text-2xl font-bold">5</p>
         </div>
@@ -65,7 +65,7 @@ export default function Dashboard() {
       {/* Secciones principales */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Últimas ventas */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h2 className="text-xl font-bold mb-4">Últimas Ventas</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -100,7 +100,7 @@ export default function Dashboard() {
         </div>
 
         {/* Productos más vendidos */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h2 className="text-xl font-bold mb-4">Productos Más Vendidos</h2>
           <div className="space-y-4">
             {mockProductosPopulares.map((producto) => (
@@ -124,13 +124,13 @@ export default function Dashboard() {
       {/* Nuevas secciones */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
         {/* Alertas de Inventario */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h2 className="text-xl font-bold mb-4 text-red-600">
             Alertas de Inventario Bajo
           </h2>
           <div className="space-y-3">
             {mockInventarioBajo.map((item) => (
-              <div key={item.producto} className="flex items-center justify-between p-2 bg-red-50 rounded">
+              <div key={item.producto} className="flex items-center justify-between p-2 bg-red-50 rounded-sm">
                 <div>
                   <h3 className="font-medium">{item.producto}</h3>
                   <p className="text-sm text-red-600">
@@ -146,7 +146,7 @@ export default function Dashboard() {
         </div>
 
         {/* Ventas por Hora */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h2 className="text-xl font-bold mb-4">Ventas por Hora</h2>
           <div className="space-y-3">
             {mockVentasPorHora.map((hora) => (
@@ -167,7 +167,7 @@ export default function Dashboard() {
         </div>
 
         {/* Métodos de Pago */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow-sm">
           <h2 className="text-xl font-bold mb-4">Métodos de Pago</h2>
           <div className="divide-y">
             {mockMetodosPago.map((metodo) => (

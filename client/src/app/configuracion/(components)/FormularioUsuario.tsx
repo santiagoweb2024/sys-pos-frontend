@@ -47,7 +47,7 @@ export default function FormularioUsuario({ usuario, onSubmit, onClose }: Formul
               type="text"
               value={formData.nombre}
               onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -60,7 +60,7 @@ export default function FormularioUsuario({ usuario, onSubmit, onClose }: Formul
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -72,7 +72,7 @@ export default function FormularioUsuario({ usuario, onSubmit, onClose }: Formul
             <select
               value={formData.rol}
               onChange={(e) => setFormData({ ...formData, rol: e.target.value as Usuario['rol'] })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             >
               <option value="admin">Administrador</option>
@@ -88,7 +88,7 @@ export default function FormularioUsuario({ usuario, onSubmit, onClose }: Formul
             <select
               value={formData.estado}
               onChange={(e) => setFormData({ ...formData, estado: e.target.value as Usuario['estado'] })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             >
               <option value="activo">Activo</option>

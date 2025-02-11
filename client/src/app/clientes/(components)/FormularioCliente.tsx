@@ -49,7 +49,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
               type="text"
               value={formData.nombre}
               onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -62,7 +62,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
               type="text"
               value={formData.documento}
               onChange={(e) => setFormData({ ...formData, documento: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -75,7 +75,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
               type="tel"
               value={formData.telefono}
               onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -88,7 +88,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -101,7 +101,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
               type="text"
               value={formData.direccion}
               onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               required
             />
           </div>
@@ -113,7 +113,7 @@ export default function FormularioCliente({ cliente, onSubmit, onClose }: Formul
             <select
               value={formData.estado}
               onChange={(e) => setFormData({ ...formData, estado: e.target.value as 'activo' | 'inactivo' })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
             >
               <option value="activo">Activo</option>
               <option value="inactivo">Inactivo</option>

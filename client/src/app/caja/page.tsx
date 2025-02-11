@@ -106,7 +106,7 @@ export default function Caja() {
   return (
     <div className="p-6 space-y-6">
       {/* Estado de Caja */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200 p-4">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
             <DollarSign className="w-6 h-6 text-blue-600" />
@@ -188,7 +188,7 @@ export default function Caja() {
 
       {/* Movimientos */}
       {resumen.abierta && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg shadow-xs border border-gray-200">
           <div className="p-4 border-b border-gray-200">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-semibold text-gray-900">Movimientos</h2>

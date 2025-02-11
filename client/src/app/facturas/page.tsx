@@ -169,7 +169,7 @@ export default function Facturas() {
     <div className="p-6 space-y-6">
       {/* Estadísticas */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-blue-600">
             <FileText className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Total Facturas</div>
@@ -178,7 +178,7 @@ export default function Facturas() {
             {estadisticas.totalFacturas}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-green-600">
             <DollarSign className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Ventas de Hoy</div>
@@ -187,7 +187,7 @@ export default function Facturas() {
             ${estadisticas.ventasHoy.toFixed(2)}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-green-600">
             <Calendar className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Facturas Pagadas</div>
@@ -196,7 +196,7 @@ export default function Facturas() {
             {estadisticas.facturasPagadas}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="flex items-center gap-2 text-blue-600">
             <Users className="w-5 h-5" />
             <div className="text-sm font-medium text-gray-500">Clientes Únicos</div>
@@ -208,7 +208,7 @@ export default function Facturas() {
       </div>
 
       {/* Lista de Facturas */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Facturas</h2>
@@ -224,14 +224,14 @@ export default function Facturas() {
                   placeholder="Buscar por número, cliente o documento..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
             <select
               value={filtroFecha}
               onChange={(e) => setFiltroFecha(e.target.value as any)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="todo">Todas las fechas</option>
               <option value="hoy">Hoy</option>
@@ -241,7 +241,7 @@ export default function Facturas() {
             <select
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value as any)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="todas">Todos los estados</option>
               <option value="pagadas">Pagadas</option>

@@ -164,25 +164,25 @@ export default function Inventario() {
     <div className="p-6 space-y-6">
       {/* Estadísticas */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Total Productos</div>
           <div className="text-2xl font-semibold text-gray-900 mt-1">
             {estadisticas.totalProductos}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Productos Stock Bajo</div>
           <div className="text-2xl font-semibold text-yellow-600 mt-1">
             {estadisticas.stockBajo}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Movimientos Hoy</div>
           <div className="text-2xl font-semibold text-blue-600 mt-1">
             {estadisticas.movimientosHoy}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Valor Total Inventario</div>
           <div className="text-2xl font-semibold text-green-600 mt-1">
             ${estadisticas.valorTotal.toFixed(2)}
@@ -216,7 +216,7 @@ export default function Inventario() {
       )}
 
       {/* Control de Inventario */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Control de Inventario</h2>
@@ -228,7 +228,7 @@ export default function Inventario() {
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -248,7 +248,7 @@ export default function Inventario() {
       </div>
 
       {/* Movimientos Recientes */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Últimos Movimientos</h2>
         </div>

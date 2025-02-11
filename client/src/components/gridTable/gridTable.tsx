@@ -33,7 +33,7 @@ export default function GridTable<T>({
       {/* Header */}
       <div
         className={clsx(
-          "grid grid-cols-[repeat(auto-fit,_minmax(0,_1fr))] sticky top-[207px] z-50 ",
+          "grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] sticky top-[207px] z-50 ",
           headerClassName
         )}
       >
@@ -62,7 +62,7 @@ export default function GridTable<T>({
               <div
                 key={index}
                 className={clsx(
-                  "grid grid-cols-[repeat(auto-fit,_minmax(0,_1fr))]",
+                  "grid grid-cols-[repeat(auto-fit,minmax(0,1fr))]",
                   typeof rowClassName === "function"
                     ? rowClassName(item)
                     : rowClassName

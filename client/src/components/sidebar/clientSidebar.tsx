@@ -21,7 +21,7 @@ export default function ClientSidebar() {
   return (
     <aside
       className={clsx(
-        "h-screen min-h-screen max-h-screen flex-shrink-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300 ease-in-out rounded-r-2xl",
+        "h-screen min-h-screen max-h-screen shrink-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300 ease-in-out rounded-r-2xl",
         isCollapsed ? "w-16" : "w-64"
       )}
     >
@@ -29,7 +29,7 @@ export default function ClientSidebar() {
         <img
           src="/logoTienda.png"
           alt="logo"
-          className="w-10 h-10 object-cover aspect-square flex-shrink-0"
+          className="w-10 h-10 object-cover aspect-square shrink-0"
         />
       </header>
 

@@ -32,7 +32,7 @@ export default function DataTable<T>({
       <table className={cn(tableClassName)}>
         <thead
           className={cn(
-            "truncate bg-surface-50/80 dark:bg-surface-800/80 backdrop-blur-sm border-b border-surface-200 dark:border-surface-700/50 sticky top-0 z-10",
+            "truncate bg-surface-50/80 dark:bg-surface-800/80 border-b border-surface-200 dark:border-surface-700/50 sticky top-0",
             headerClassName
           )}
         >
@@ -57,7 +57,7 @@ export default function DataTable<T>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="text-center py-6 text-surface-500 dark:text-surface-400"
+                className="py-6 text-surface-500 dark:text-surface-400 text-center"
               >
                 {emptyMessage}
               </td>

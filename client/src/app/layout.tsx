@@ -43,7 +43,7 @@ export default function RootLayout({
               <ClientSidebar />
             </div>
             <div className=" mx-2 flex-1 flex flex-col w-full">
-              <div className="h-[60px] z-50 bg-surface-50 dark:bg-surface-800 backdrop-blur-sm sticky top-0">
+              <div className="h-[60px] z-50 bg-surface-50 dark:bg-surface-800 backdrop-blur-xs sticky top-0">
                 <Navbar />
               </div>
               <div className="flex-1 mt-2 relative">

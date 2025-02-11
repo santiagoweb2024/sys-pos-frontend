@@ -101,7 +101,7 @@ export default function FormularioCierre({ resumen, onSubmit, onClose }: Formula
                   step="0.01"
                   value={formData.efectivo}
                   onChange={(e) => setFormData({ ...formData, efectivo: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
                   required
                 />
               </div>
@@ -114,7 +114,7 @@ export default function FormularioCierre({ resumen, onSubmit, onClose }: Formula
                   step="0.01"
                   value={formData.tarjeta}
                   onChange={(e) => setFormData({ ...formData, tarjeta: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
                   required
                 />
               </div>
@@ -127,7 +127,7 @@ export default function FormularioCierre({ resumen, onSubmit, onClose }: Formula
                   step="0.01"
                   value={formData.transferencia}
                   onChange={(e) => setFormData({ ...formData, transferencia: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
                   required
                 />
               </div>
@@ -160,7 +160,7 @@ export default function FormularioCierre({ resumen, onSubmit, onClose }: Formula
             <textarea
               value={formData.observaciones}
               onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-xs p-2"
               rows={3}
               placeholder="Ingrese cualquier observación relevante..."
             />

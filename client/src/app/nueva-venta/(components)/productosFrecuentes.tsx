@@ -102,7 +102,7 @@ const TABLE_COLUMNS = [
 const VistaCards = ({ productos, onAgregarProducto }: { productos: Producto[]; onAgregarProducto: (producto: Producto, cantidad: number) => void }) => (
   <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-[calc(100vh-60px-8px-1rem-2.75rem-0.5rem-2.5rem-0.5rem)] overflow-y-auto">
     {productos.map((producto) => (
-      <div key={producto.id} className="bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+      <div key={producto.id} className="bg-white p-3 rounded-xl border border-gray-100 shadow-xs">
         <img
           src={producto.imagen}
           alt={producto.nombre}

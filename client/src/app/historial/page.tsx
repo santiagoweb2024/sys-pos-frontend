@@ -155,7 +155,7 @@ export default function Historial() {
           <select
             value={filtroFecha}
             onChange={(e) => setFiltroFecha(e.target.value as typeof filtroFecha)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
           >
             <option value="hoy">Hoy</option>
             <option value="semana">Esta Semana</option>
@@ -218,7 +218,7 @@ export default function Historial() {
       </div>
 
       {/* Tabla de Historial */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-xs border border-gray-200">
         <DataTable
           data={historial}
           columns={columns}

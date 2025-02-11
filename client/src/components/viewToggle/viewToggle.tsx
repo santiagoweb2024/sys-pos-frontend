@@ -27,7 +27,7 @@ export default function ViewToggle({
           key={option.value}
           onClick={() => onChange(option.value)}
           className={clsx(
-            "p-2 rounded transition-colors",
+            "p-2 rounded-sm transition-colors",
             value === option.value 
               ? "bg-blue-500 text-white" 
               : "bg-gray-200 hover:bg-gray-300"
