@@ -6,7 +6,7 @@ meta {
 
 post {
   url: {{BASE_URL}}products
-  body: json
+  body: multipartForm
   auth: none
 }
 
@@ -25,4 +25,19 @@ body:json {
     "supplierId":7,
     "productStatusId":4
   }
+}
+
+body:multipart-form {
+  sku: 1234567891022
+  upc: 1234567899876
+  name: task2
+  description: tarea numero 2
+  purchasePrice: 6.80
+  unitOfMeasurementId: 2
+  stock: 10
+  brandId: 2
+  categoryId: 2
+  supplierId: 2
+  productStatusId: 4
+  file: @file(/home/silent-phantom/Downloads/WhatsApp Image 2025-02-06 at 9.47.48 PM.jpeg)
 }

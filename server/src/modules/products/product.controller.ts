@@ -7,21 +7,30 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDto, createProductSchema } from './dto/createProduct.dto';
-import { UpdateProductDto, updateProductSchema } from './dto/updateProduct.dto';
+import {
+  CreateProductDto,
+  createProductSchema,
+  updateProductSchema,
+  UpdateProductDto,
+} from './dto/product.dto';
+
 import {
   GetProductQueryDto,
   getProductQuerySchema,
 } from './dto/getProduct.dto';
-import { ZodValidationPipe } from '@/shared/pipes/zodValidation.pipe';
+import { ZodValidationPipe } from '@/common/pipes/zodValidation.pipe';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-
+  //product
   @Get()
   @UsePipes(new ZodValidationPipe(getProductQuerySchema))
   async getAllProducts(@Query() query: GetProductQueryDto) {
@@ -46,10 +55,26 @@ export class ProductController {
     };
   }
 
+  @Post('bulk')
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'file', maxCount: 1 },{ name: 'images'}]))
+  async createProductBulk(@UploadedFiles() files: { file: Express.Multer.File; images: Express.Multer.File[] }) {
+    console.log(">>>files",files)
+    //const product = await this.productService.createProductBulk(files);
+    return {
+      type: 'products',
+      message: 'Producto creado exitosamente',
+      data: null,
+    };
+  }
+
   @Post()
+  @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ZodValidationPipe(createProductSchema))
-  async createProduct(@Body() data: CreateProductDto) {
-    const product = await this.productService.createProduct(data);
+  async createProduct(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() data: CreateProductDto,
+  ) {
+    const product = await this.productService.createProduct(file, data);
     return {
       statusCode: 201,
       type: 'products',

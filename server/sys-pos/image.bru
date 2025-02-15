@@ -1,0 +1,15 @@
+meta {
+  name: image
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}image/upload
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  file: @file(/home/silent-phantom/Downloads/WhatsApp Image 2025-02-06 at 9.47.48 PM.jpeg)
+}

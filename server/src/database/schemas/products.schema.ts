@@ -5,7 +5,7 @@ import {
   integer,
   decimal,
 } from 'drizzle-orm/pg-core';
-import { timestampColumns } from '@/shared/utils/colums.util';
+import { timestampColumns } from '@/common/utils/colums.util';
 import { relations } from 'drizzle-orm';
 import { unitsOfMeasurement } from './unitsOfMeasurement';
 import { brands } from './brands.schema';
@@ -22,6 +22,7 @@ export const products = pgTable('products', {
   upc: varchar({ length: 13 }).notNull().unique(),
   name: varchar().notNull(),
   description: varchar().notNull(),
+  markupPercentage:decimal({ precision: 10, scale: 2 }),
   salePrice: decimal({ precision: 10, scale: 2 }).notNull(),
   purchasePrice: decimal({ precision: 10, scale: 2 }).notNull(),
   unitOfMeasurementId: integer()
@@ -69,3 +70,6 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   saleDetails: many(saleDetails),
   productImages: many(productImages),
 }));
+
+export type Product = typeof products.$inferSelect;
+export type NewProduct = typeof products.$inferInsert;

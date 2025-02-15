@@ -21,7 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["src/*"],
-      "@utils/*": ["src/shared/utils/*"],
+      "@utils/*": ["src/common/utils/*"],
       "@database/*": ["src/database/*"]
     }
   }

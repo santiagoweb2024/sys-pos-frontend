@@ -1,21 +1,21 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { GlobalExceptionFilter } from './shared/filters/httpException.filter';
-import { setupApp } from './shared/config/app.config';
+import { AppModule } from './app/app.module';
+import { GlobalExceptionFilter } from './common/filters/httpException.filter';
+import { appConfig } from './config/app/env.loader';
+import { ResponseFormatInterceptor } from './common/interceptors/responseFormat.interceptor';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    // Desactivar el ValidationPipe por defecto
     bodyParser: true,
     cors: true,
   });
 
-  setupApp(app);
-
   // Registrar el filtro global de excepciones
+  app.useGlobalInterceptors(new ResponseFormatInterceptor())
   app.useGlobalFilters(new GlobalExceptionFilter());
-
-  await app.listen(3500);
+  app.setGlobalPrefix(appConfig.API_ROUTE_PREFIX);
+  await app.listen(appConfig.API_PORT);
 }
 
 bootstrap();

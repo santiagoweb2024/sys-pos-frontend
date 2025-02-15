@@ -1,5 +1,5 @@
 import { integer, pgEnum, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
-import { timestampColumns } from '@/shared/utils/colums.util';
+import { timestampColumns } from '@/common/utils/colums.util';
 import { relations } from 'drizzle-orm';
 import { cashResgisters } from './cashRegisters';
 import { users } from './users.schema';

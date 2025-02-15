@@ -1,0 +1,18 @@
+meta {
+  name: createBrand
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{BASE_URL}}brand
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"brand8",
+    "description":"es una brand"
+  }
+}

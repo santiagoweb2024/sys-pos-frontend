@@ -4,15 +4,23 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { CreateProductDto } from './dto/createProduct.dto';
-import { UpdateProductDto } from './dto/updateProduct.dto';
+import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { GetProductQueryDto } from './dto/getProduct.dto';
-import { PaginationHelper } from '@/shared/helpers/pagination.helper';
-import { buildGenericFilter } from '@/shared/utils/filterBuilder.util';
-
+import { PaginationHelper } from '@/common/helpers/pagination.helper';
+import { buildGenericFilter } from '@/common/utils/filterBuilder.util';
+import { ImageService } from '../image/image.service';
+import {
+  CreateBrandDto,
+  QueryPaginationWithSearchDto,
+} from './brand/brand.dto';
+import Decimal from 'decimal.js-light';
+import { NewProduct } from '@/database/schemas/products.schema';
 @Injectable()
 export class ProductService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly imageService: ImageService,
+  ) {}
 
   private validatePrices(salePrice: number, purchasePrice: number) {
     if (salePrice <= purchasePrice) {
@@ -28,49 +36,62 @@ export class ProductService {
       );
     }
   }
-
+  // product
   async getAllProducts(query: GetProductQueryDto) {
     const { name, sku, upc, ...paginationQuery } = query;
-    const { limit, offset } = PaginationHelper.toDatabase(paginationQuery);
+    const { limit, offset, page } =
+      PaginationHelper.generatePaginationParams(paginationQuery);
     const filters = buildGenericFilter({ name, sku, upc });
-    const { items, total } = await this.productRepository.findAll(
-      { limit, offset },
-      filters,
-    );
+    const { items, total } = { items: [], total: 0 };
 
     return {
       items,
-      meta: PaginationHelper.createMeta({
-        totalItems: total,
-        itemCount: items.length,
-        itemsPerPage: limit,
-        totalPages: Math.ceil(total / limit),
-        currentPage: Math.floor(offset / limit) + 1,
-        path: 'products',
-        query,
-      }),
+      meta: PaginationHelper.getPaginationMeta(
+        total,
+        page,
+        limit,
+        items.length,
+      ),
     };
   }
 
   async getProductById(id: number) {
-    const product = await this.productRepository.findById(id);
+    const product = 1;
     if (!product) {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
     return product;
   }
 
-  async createProduct(data: CreateProductDto) {
-    const salePrice = parseFloat(data.salePrice);
-    const purchasePrice = parseFloat(data.purchasePrice);
+  async createProductBulk(files:{ file: Express.Multer.File; images: Express.Multer.File[]}) {
+    return 'esto crea productos masicvos'
+  }
 
-    this.validatePrices(salePrice, purchasePrice);
+  async createProduct(file: Express.Multer.File, data: CreateProductDto) {
+    let productData: NewProduct = { ...data, salePrice: '' };
 
-    return await this.productRepository.create(data);
+    if (data.markupPercentage) {
+      const markupPercentage = new Decimal(data.markupPercentage);
+      const salePrice = new Decimal(data.purchasePrice)
+        .mul(new Decimal(1).add(markupPercentage.div(100)))
+        .toDecimalPlaces(2);
+      productData.salePrice = salePrice.toString();
+    }
+
+    const newProduct = await this.productRepository.createProduct(productData);
+    
+    const { public_id: publicId, secure_url: imageUrl } =
+      await this.imageService.upload(file);
+    
+      const newImage = await this.imageService.create({
+      imageUrl,
+      publicId,
+      productId: newProduct.id,
+    });
   }
 
   async updateProduct(id: number, data: UpdateProductDto) {
-    const existingProduct = await this.getProductById(id);
+    /*  const existingProduct = await this.getProductById(id);
 
     if (data.salePrice || data.purchasePrice) {
       const salePrice = parseFloat(data.salePrice || existingProduct.salePrice);
@@ -79,13 +100,33 @@ export class ProductService {
       );
 
       this.validatePrices(salePrice, purchasePrice);
-    }
+    } */
 
-    return await this.productRepository.update(id, data);
+    return { id: 1 };
   }
 
   async deleteProduct(id: number) {
     await this.getProductById(id);
-    return await this.productRepository.delete(id);
+    return { od: 1 };
   }
+  // category
+  async createCategory(data: any) {}
+
+  async getAllCategories() {}
+
+  async getCategoryId() {}
+
+  async updateCategory() {}
+
+  async deleteCategory() {}
+  // supplier
+  async createSupplier(data: any) {}
+
+  async getAllSuppliers() {}
+
+  async getSupplierId() {}
+
+  async updateSupplier() {}
+
+  async deleteSupplier() {}
 }

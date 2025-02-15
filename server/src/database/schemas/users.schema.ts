@@ -1,5 +1,5 @@
 import { pgTable, varchar, serial, integer } from 'drizzle-orm/pg-core';
-import { timestampColumns } from '@/shared/utils/colums.util';
+import { timestampColumns } from '@/common/utils/colums.util';
 import { roles } from './roles.schema';
 import { relations } from 'drizzle-orm';
 import { cashMovements } from './cashMovements';

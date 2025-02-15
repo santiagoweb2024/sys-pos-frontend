@@ -1,0 +1,16 @@
+meta {
+  name: creteProductBulk
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{BASE_URL}}products/bulk
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  file: @file(/home/silent-phantom/products.csv)
+  images: @file(/home/silent-phantom/image-products/imagen1.webp|/home/silent-phantom/image-products/imagen2.webp|/home/silent-phantom/image-products/imagen3.webp|/home/silent-phantom/image-products/imagen4.webp|/home/silent-phantom/image-products/imagen5.webp)
+}
